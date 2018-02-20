@@ -7,11 +7,23 @@ library(shiny)
 #   You will use `shinyUI()` to render this variable (bottom of the script)
 # Give the layout a title of "Income Inequality".
 # The layout should include the following elements:
-
+ui <- fluidPage(
+  
+  navbarPage("Income Inequality",
+             tabPanel("Introduction",
+               titlePanel("Income Inequality"),
+               p("The below diagram was created by the New York Times to illutrate the increasing level of inequality in the US"),
+               img(src = "inequality.png"),
+               a("Source", href = "https://www.nytimes.com/interactive/2017/08/07/opinion/leonhardt-income-inequality.html"),
+               em("This shows the income growth of the", strong("poor and middle class"), "as well as the",
+                  strong("upper class"), ". As you can see there has been massive growth in the",
+                  strong("upper class"), "but almost no growth in the", strong("poor and middle class"),
+                  ".")
+             ),
+  
 
   # A `tabPanel()` with a title "Introduction" to represent the first tab.
   # This layout will contain the following elements:
-
            
     # A `titlePanel()` with the text "Income Inequality"
 
@@ -33,8 +45,19 @@ library(shiny)
     # shows. Your paragraph should include both `strong()` and emphasized `em()` 
     # text.
 
-
-
+    tabPanel(title = "Growth Chart",
+      titlePanel("Income growth 1980-2014"),
+      sidebarLayout(
+        sidebarPanel(
+          sliderInput('percentile', 'Income Percentile', min = 0, max = 100, value = 50)
+        ),
+        mainPanel(
+          plotOutput('plot'),
+          p(a("Source", href="http://gabriel-zucman.eu/usdina/"))
+        )
+      )
+    )
+  )
   # The navbarPage layout should have a second `tabPanel()` titled "Growth Chart"
   # This layout should contain the following elements:
 
@@ -63,6 +86,6 @@ library(shiny)
         
         # A paragraph with a hyperlink to the data source http://gabriel-zucman.eu/usdina/
 
-
+)
 # Remember to pass your `ui` to the `shinyUI()` function to create it!
-
+shinyUI(ui)
